@@ -5,16 +5,17 @@ const { exec } = require('child_process');
 
 var inputDir = '../../data';
 var extension = '.mp4';
-var sizeRatio = 4;
-var fileName = fs.readdir(inputDir, (err, files) => {
+var sizeFps = 24;
+
+fs.readdir(inputDir, (err, files) => {
     if (err)
-      console.log(err);
-    else {
-      files.forEach(file => {
-        if (path.extname(file) == extension)
-        file.replace(extension,'')
-      })
-    }
+      process.exit();
+    files.forEach(file => {
+        if (path.extname(file) == extension) {
+        let fileName = file
+        let fileNameExt = file.replace(extension,'')
+        minimizer(inputDir,fileName,sizeFps,fileNameExt)
+      }})
   })
 
 // fs.readdir(inputDir, (err, files) => {
@@ -28,18 +29,15 @@ var fileName = fs.readdir(inputDir, (err, files) => {
 //       })
 //     }
 //   })
-console.log(fileName);
 
-// exec('ffmpeg -i '.inputDir.'/'.$fileName.' -vf "scale=iw/'.$sizeRatio.':ih/'.$sizeRatio.'" '.inputDir.'/'.$fileName.'.minimizer.mp4', (error, stdout, stderr) => {
-//   if (error) {
-//     console.error(`error: ${error.message}`);
-//     return;
-//   }
+const minimizer = (inputDir, fileName, sizeFps, fileNameExt) => { 
+  exec('ffmpeg -i ' + inputDir + '/' + fileName + ' -r ' + sizeFps + ' ' + inputDir + '/' + fileNameExt + '.minimizer.mp4', (error, stdout) => {
+  //exec('ls', (error, stdout) => {
+    if (error) {
+      console.error(`error: ${error.message}`);
+      return;
+    }
+    stdout;
+  });
+}
 
-//   if (stderr) {
-//     console.error(`stderr: ${stderr}`);
-//     return;
-//   }
-
-//   console.log(`stdout:\n${stdout}`);
-// });

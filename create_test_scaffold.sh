@@ -1,5 +1,8 @@
 # TODO better way to remove all BUT one file
 mv data/10mb_0.mp4 .
+mv data/10mb_0.flv .
+mv data/10mb_0.3gp .
+mv data/10mb_0.mkv .
 rm -rf data/*
 mv 10mb_0.mp4 data/
 mv 10mb_0.flv data/
